@@ -2,7 +2,9 @@ package jsy.test.navermapsample.ui.activity
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.navigation.Navigation
 import dagger.hilt.android.AndroidEntryPoint
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.base.BaseActivity
@@ -19,7 +21,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         Log.d(logTag, "startActivity");
 
 
-
 //        _mainViewModel.mainText.observe(lifecycleOwner) { text ->
 //                binding.tvMain.text = text
 //        }
@@ -27,6 +28,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 //        binding.btnTextChange.setOnClickListener{
 //            _mainViewModel.changeMainText()
 //        }
+
+
+    }
+
+
+    override fun onBackPressed() {
+        val controller = Navigation.findNavController(this, R.id.nav_host_fragment)
+        Log.d(logTag, "popBackStack false ${controller.backQueue.size}")
+        if(controller.backQueue.size>2) // 쌓여있는 BackStack이 있을경우
+        {
+            controller.popBackStack()
+        }else{
+            Toast.makeText(this@MainActivity, "popBackStack false", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
