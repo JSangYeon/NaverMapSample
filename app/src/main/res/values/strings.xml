@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">NaverMapSample</string>
+
+    <string name="naver_map_fragment">naverMapFragment</string>
+    <string name="second_fragment">secondFragment</string>
+
+    <string name="app_close_hint">앱 종료</string>
+
+</resources>
