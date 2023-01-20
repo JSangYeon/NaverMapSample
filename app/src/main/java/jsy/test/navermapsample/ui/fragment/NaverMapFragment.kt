@@ -17,6 +17,7 @@ import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.overlay.Marker
 import dagger.hilt.android.AndroidEntryPoint
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.base.BaseFragment
@@ -45,9 +46,31 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
 
         naverMap.getMapAsync {naverMap-> //  naverMapInit
             Log.d(logTag,"naverMapInit : $naverMap")
-
-            initCamera(naverMap)
+            initNaverMapSetting(naverMap)
         }
+
+    }
+
+    private fun initNaverMapSetting(naverMap: NaverMap){
+
+
+        _naverMapViewModel.currentLocation.observe(viewLifecycleOwner){ latLng->
+
+            val cameraUpdate = CameraUpdate.scrollTo(latLng)
+                .reason(3)
+                .animate(CameraAnimation.Easing, 2000)
+                .finishCallback {
+                    Toast.makeText(context, "완료", Toast.LENGTH_SHORT).show()
+                }
+                .cancelCallback {
+                    Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
+                }
+
+
+            naverMap.moveCamera(cameraUpdate)
+        }
+
+
     }
 
 
@@ -63,6 +86,14 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
                 Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
             }
 
+//        val marker = Marker().apply {
+//            position = LatLng(37.5261, 126.8643)
+//            setOnClickListener {
+//                Toast.makeText(context, "마커 클릭됨", Toast.LENGTH_SHORT).show()
+//                true
+//            }
+//            map = naverMap
+//        }
         naverMap.moveCamera(cameraUpdate)
 
     }
