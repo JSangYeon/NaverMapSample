@@ -40,7 +40,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         {
             controller.popBackStack()
         }else{
-            Toast.makeText(this@MainActivity, "popBackStack false", Toast.LENGTH_SHORT).show()
+            _mainViewModel.finishEvent()
+//            Toast.makeText(this@MainActivity, "popBackStack false", Toast.LENGTH_SHORT).show()
         }
 
     }
