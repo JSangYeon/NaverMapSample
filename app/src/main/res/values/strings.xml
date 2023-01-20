@@ -5,5 +5,7 @@
     <string name="second_fragment">secondFragment</string>
 
     <string name="app_close_hint">앱 종료</string>
+    <string name="move_second_fragment">secondFragment로 이동</string>
+    <string name="move_naver_map_fragment">NaverMapFragment로 이동</string>
 
 </resources>

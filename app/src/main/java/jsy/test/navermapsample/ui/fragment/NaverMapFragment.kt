@@ -33,6 +33,8 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
         binding.naverMapViewModel = _naverMapViewModel
 
 
+
+
     }
 
 
