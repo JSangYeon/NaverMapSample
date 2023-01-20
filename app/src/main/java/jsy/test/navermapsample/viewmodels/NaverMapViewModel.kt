@@ -15,4 +15,8 @@ class NaverMapViewModel @Inject constructor()
     fun navigateSecondFragment(view: View) {
         Navigation.findNavController(view).navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
+
+
+    fun cameraUpdate(){
+    }
 }
