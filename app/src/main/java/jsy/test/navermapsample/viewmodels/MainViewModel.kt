@@ -2,13 +2,14 @@ package jsy.test.navermapsample.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.naviMapTest.base.BaseViewModel
 import com.example.naviMapTest.base.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-) :  ViewModel(){
+) :  BaseViewModel(){
 
     private val _mainText = SingleLiveEvent<String>()
     val mainText: LiveData<String>
