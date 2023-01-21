@@ -21,4 +21,5 @@ abstract class BaseActivity<T : ViewDataBinding>(@LayoutRes private val layoutRe
         logTag = this.localClassName
     }
 
+
 }
