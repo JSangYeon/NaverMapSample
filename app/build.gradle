@@ -8,6 +8,7 @@ plugins {
 def properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def naver_map_client_id = properties.getProperty('naver_map_client_id')
+def evcs_api_key = properties.getProperty('evcs_api_key')
 
 android {
     namespace 'jsy.test.navermapsample'
@@ -23,8 +24,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
 
-//        //프로젝트에서 사용
-//        buildConfigField "String", "NAVER_MAP_CLIENT_ID", properties['naver_map_client_id']
+        //프로젝트에서 사용
+        buildConfigField "String", "EVCS_API_KEY", properties['evcs_api_key']
 
         // 매니페스트에서 사용
         manifestPlaceholders = [naverMapClientId: naver_map_client_id]
@@ -91,11 +92,11 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
-//    // network
-//    implementation "com.squareup.retrofit2:retrofit:2.9.0"
-//    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
-//    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
-//    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
-//    implementation 'androidx.core:core-ktx:+'
+    // network
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
 
 }

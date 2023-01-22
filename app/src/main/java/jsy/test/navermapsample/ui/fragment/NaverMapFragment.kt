@@ -16,6 +16,8 @@ import jsy.test.navermapsample.base.BaseFragment
 import jsy.test.navermapsample.databinding.FragmentNaverMapBinding
 import jsy.test.navermapsample.viewmodels.MainViewModel
 import jsy.test.navermapsample.viewmodels.NaverMapViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -31,6 +33,8 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
         Log.d(logTag, "init naverMapFragment")
         binding.naverMapFragment = this@NaverMapFragment
         binding.naverMapViewModel = _naverMapViewModel
+
+        _naverMapViewModel.testRetrofit()
 
 
 

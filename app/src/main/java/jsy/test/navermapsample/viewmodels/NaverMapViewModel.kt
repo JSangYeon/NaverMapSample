@@ -1,18 +1,59 @@
 package jsy.test.navermapsample.viewmodels
 
+import android.util.Log
 import android.view.View
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation
+import com.example.naviMapTest.base.BaseViewModel
+import com.example.naviMapTest.base.SingleLiveEvent
+import com.naver.maps.map.overlay.Marker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jsy.test.navermapsample.R
+import jsy.test.navermapsample.model.repository.TestRepositoryImpl
 import javax.inject.Inject
 
 
 @HiltViewModel
-class NaverMapViewModel @Inject constructor()
-    : ViewModel() {
+class NaverMapViewModel @Inject constructor(
+    private val testRepositoryImpl: TestRepositoryImpl
+) : BaseViewModel() {
+
+    private val _markerList = SingleLiveEvent<ArrayList<Marker>>()
+
+    val markerList: LiveData<ArrayList<Marker>> = _markerList
+
 
     fun navigateSecondFragment(view: View) {
         Navigation.findNavController(view).navigate(R.id.action_FirstFragment_to_SecondFragment)
+    }
+
+    fun testRetrofit() {
+
+        Log.d(logTag, "testRetrofit")
+        testRepositoryImpl.getVehicleLocation().subscribe({ response ->
+
+            val evcsResponse = response.body()
+            Log.d(logTag, "retrofit 충전소 :  ${evcsResponse}}")
+
+            evcsResponse?.items?.evChargingStationList?.forEach { evChargingStation ->
+                Log.d(logTag, "evChargingStation Name : ${evChargingStation.statNm}")
+
+            }
+
+//            if (it.body() != null) {
+//                Log.d(logTag, "retrofit userList :  ${it.body()}")
+////                _mainList.postValue(it.body())
+//
+////                val userList = it.body()!!
+////                var userTitles = ""
+////                userList.forEach {
+////                    userTitles += it.title + "\n"
+////
+////                }
+////                _mainText.postValue(userTitles)
+//            }
+        }, {
+            Log.d(logTag, "retrofit error : $it")
+        }).let { }
     }
 }
