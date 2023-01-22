@@ -24,7 +24,6 @@ import jsy.test.navermapsample.base.BaseFragment
 import jsy.test.navermapsample.databinding.FragmentNaverMapBinding
 import jsy.test.navermapsample.viewmodels.MainViewModel
 import jsy.test.navermapsample.viewmodels.NaverMapViewModel
-import kotlin.math.log
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -41,6 +40,8 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
         Log.d(logTag, "init naverMapFragment")
         binding.naverMapFragment = this@NaverMapFragment
         binding.naverMapViewModel = _naverMapViewModel
+
+        _naverMapViewModel.testRetrofit()
 
         naverMap = (binding.fcNaverMap.getFragment() as MapFragment)
 

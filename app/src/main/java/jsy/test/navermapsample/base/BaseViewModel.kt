@@ -14,6 +14,7 @@ import jsy.test.navermapsample.R
 import java.util.concurrent.TimeUnit
 
 abstract class BaseViewModel : ViewModel() {
+    protected val logTag = javaClass.simpleName
     protected val disposables: CompositeDisposable = CompositeDisposable()
     private var backPressedDisposable: Disposable
     protected val backPressedSubject = BehaviorSubject.createDefault(0L) // 생성할 때는 0을 넣는다
@@ -21,7 +22,6 @@ abstract class BaseViewModel : ViewModel() {
         postValue(false)
     }
     protected var _error = MutableLiveData<String>()
-
     val loading: LiveData<Boolean> get() = _loading
     val error: LiveData<String> get() = _error
 
