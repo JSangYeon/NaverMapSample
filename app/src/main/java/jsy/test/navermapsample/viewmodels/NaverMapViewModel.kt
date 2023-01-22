@@ -7,6 +7,14 @@ import androidx.navigation.Navigation
 import com.example.naviMapTest.base.BaseViewModel
 import com.example.naviMapTest.base.SingleLiveEvent
 import com.naver.maps.map.overlay.Marker
+import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation
+import com.example.naviMapTest.base.SingleLiveEvent
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraAnimation
+import com.naver.maps.map.CameraUpdate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.model.repository.TestRepositoryImpl
@@ -23,10 +31,16 @@ class NaverMapViewModel @Inject constructor(
     val markerList: LiveData<ArrayList<Marker>> = _markerList
 
 
+    private val _currentLocation = SingleLiveEvent<LatLng>()
+    val currentLocation: LiveData<LatLng>
+        get() = _currentLocation
+
+
+
     fun navigateSecondFragment(view: View) {
         Navigation.findNavController(view).navigate(R.id.action_FirstFragment_to_SecondFragment)
     }
-
+    
     fun testRetrofit() {
 
         Log.d(logTag, "testRetrofit")
@@ -55,5 +69,8 @@ class NaverMapViewModel @Inject constructor(
         }, {
             Log.d(logTag, "retrofit error : $it")
         }).let { }
+
+    fun setLocationMokdong(){
+        _currentLocation.value = LatLng(37.5261, 126.8643)
     }
 }
