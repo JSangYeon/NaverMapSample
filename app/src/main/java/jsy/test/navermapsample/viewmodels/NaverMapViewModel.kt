@@ -41,11 +41,32 @@ class NaverMapViewModel @Inject constructor(
             val evcsResponse = response.body()
             Log.d(logTag, "retrofit 충전소 :  ${evcsResponse}}")
 
+//        val marker = Marker().apply {
+//            position = LatLng(37.5261, 126.8643)
+//            setOnClickListener {
+//                Toast.makeText(context, "마커 클릭됨", Toast.LENGTH_SHORT).show()
+//                true
+//            }
+//            map = naverMap
+//        }
+
+            val markerList = ArrayList<Marker>()
             evcsResponse?.items?.evChargingStationList?.forEach { evChargingStation ->
                 Log.d(logTag, "evChargingStation Name : ${evChargingStation.statNm}")
-
+                val lat = evChargingStation.lat.toDoubleOrNull()
+                val lng = evChargingStation.lng.toDoubleOrNull()
+                if (lat != null && lng != null) {
+                    markerList.add(
+                        Marker(
+                            LatLng(lat, lng)
+                        ).apply {
+                            tag = evChargingStation.statNm
+                            captionText = evChargingStation.statNm
+                        }
+                    )
+                }
             }
-
+            _markerList.postValue(markerList)
         }, {
             Log.d(logTag, "retrofit error : $it")
         }).let { }
