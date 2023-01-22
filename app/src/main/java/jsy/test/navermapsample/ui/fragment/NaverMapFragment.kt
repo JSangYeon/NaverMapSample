@@ -66,9 +66,16 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
                 .cancelCallback {
                     Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
                 }
-
-
             naverMap.moveCamera(cameraUpdate)
+        }
+
+        _naverMapViewModel.markerList.observe(viewLifecycleOwner){ markerList ->
+
+            markerList.forEach { marker->
+                Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
+                marker.map = naverMap
+            }
+
         }
 
 
