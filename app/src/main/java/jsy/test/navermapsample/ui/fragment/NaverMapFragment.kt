@@ -46,6 +46,7 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
     private fun initNaverMapSetting(naverMap: NaverMap){
 
 
+
         _naverMapViewModel.currentLocation.observe(viewLifecycleOwner){ latLng->
 
             val cameraUpdate = CameraUpdate.scrollTo(latLng)

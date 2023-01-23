@@ -24,14 +24,13 @@ class NaverMapViewModel @Inject constructor(
 
     private val _markerList = SingleLiveEvent<ArrayList<Marker>>()
     private val _routePath = SingleLiveEvent<PathOverlay>()
+    private val _isProgress = SingleLiveEvent<Boolean>()
+    private val _currentLocation = SingleLiveEvent<LatLng>()
 
     val markerList: LiveData<ArrayList<Marker>> = _markerList
     val routePath: LiveData<PathOverlay> = _routePath
-
-
-    private val _currentLocation = SingleLiveEvent<LatLng>()
-    val currentLocation: LiveData<LatLng>
-        get() = _currentLocation
+    val isProgress: LiveData<Boolean> = _isProgress
+    val currentLocation: LiveData<LatLng> = _currentLocation
 
 
     fun navigateSecondFragment(view: View) {
@@ -67,39 +66,35 @@ class NaverMapViewModel @Inject constructor(
         }, {
             Log.d(logTag, "retrofit error getEVCS : $it")
         }).let { }
-
     }
 
     fun getRoute(markerPosition: LatLng) {
+        disposables.clear()
         if (_currentLocation.value != null) {
-            if(_routePath.value!=null) _routePath.value!!.map = null
+            _isProgress.value = true
+            if (_routePath.value != null) _routePath.value!!.map = null
             naverDirectRepositoryImpl.getNaverDirect(_currentLocation.value!!, markerPosition)
                 .subscribe({ response ->
-                    Log.d(logTag, "response body : ${response.body()}")
+//                    Log.d(logTag, "response body : ${response.body()}")
                     val naverMapDirectResponse = response.body()
 
                     if (naverMapDirectResponse != null &&
                         naverMapDirectResponse.route != null &&
-                        naverMapDirectResponse.route.trafast != null && naverMapDirectResponse.route.trafast.isNotEmpty() &&
+                        naverMapDirectResponse.route.trafast != null &&
+                        naverMapDirectResponse.route.trafast.isNotEmpty() &&
                         naverMapDirectResponse.route.trafast[0].path != null
                     ) {
-
-//
-//                        val nodeList = ArrayList<LatLng>()
-//                        naverMapDirectResponse.route.trafast[0].path.forEach {  node ->
-//                            nodeList.add(node)
-//                        }
-
-
                         val path = PathOverlay()
-                        path.coords =  naverMapDirectResponse.route.trafast[0].path!!.toCollection(ArrayList())
+                        path.coords = naverMapDirectResponse.route.trafast[0].path.toCollection(ArrayList())
                         _routePath.postValue(path)
                     }
-
+                    _isProgress.postValue(false)
                 }, {
+                    _isProgress.postValue(false)
                     Log.d(logTag, "retrofit error getRoute : $it")
-                }).let { }
-
+                }).let { disposable ->
+                    disposables.add(disposable)
+                }
         }
     }
 
