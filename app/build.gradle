@@ -7,8 +7,8 @@ plugins {
 
 def properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def naver_map_client_id = properties.getProperty('naver_map_client_id')
-def evcs_api_key = properties.getProperty('evcs_api_key')
+//def naver_map_client_id = properties.getProperty('naver_map_client_id')
+//def evcs_api_key = properties.getProperty('evcs_api_key')
 
 android {
     namespace 'jsy.test.navermapsample'
@@ -25,10 +25,12 @@ android {
 
 
         //프로젝트에서 사용
+        buildConfigField "String", "NAVER_MAP_CLIENT_ID", properties['naver_map_client_id']
+        buildConfigField "String", "NAVER_MAP_CLIENT_SECRET", properties['naver_map_client_secret']
         buildConfigField "String", "EVCS_API_KEY", properties['evcs_api_key']
 
-        // 매니페스트에서 사용
-        manifestPlaceholders = [naverMapClientId: naver_map_client_id]
+//         매니페스트에서 사용
+//        manifestPlaceholders = [naverMapClientId: naver_map_client_id]
 
     }
 

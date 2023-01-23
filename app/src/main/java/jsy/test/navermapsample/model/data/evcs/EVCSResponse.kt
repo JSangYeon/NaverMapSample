@@ -1,4 +1,4 @@
-package jsy.test.navermapsample.model.data
+package jsy.test.navermapsample.model.data.evcs
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -32,5 +32,5 @@ data class EVCSResponse( // electric vehicle charging station Response
 
     @SerializedName("items")
     @Expose
-    val items: Items,
+    val EVCSItems: EVCSItems,
 )
