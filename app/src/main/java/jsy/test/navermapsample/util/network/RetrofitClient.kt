@@ -1,6 +1,10 @@
 package jsy.test.navermapsample.util.network
 
 import android.annotation.SuppressLint
+import com.google.gson.GsonBuilder
+import com.naver.maps.geometry.LatLng
+import jsy.test.navermapsample.model.data.naver.direct.deserializer.LatLngDeserializer
+import jsy.test.navermapsample.model.data.naver.direct.deserializer.LatLngListDeserializer
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,13 +14,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.security.SecureRandom
 import java.security.cert.X509Certificate
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
+import kotlin.collections.ArrayList
+
 
 object RetrofitClient {
-
 
     val TYPE_WIFI = 1
     val TYPE_MOBILE = 2
@@ -25,7 +31,13 @@ object RetrofitClient {
     val NETWORK_STAUS_WIFI = 1
     val NETWORK_STATUS_MOBILE = 2
 
-    fun retrofit(baseUrl: String = ApiConfig.API_URL_BASE): Retrofit {
+    fun retrofit(baseUrl: String = ApiConfig.PUBLIC_DATA_API_URL): Retrofit {
+
+        val builder = GsonBuilder()
+//        builder.registerTypeAdapter(Array<LatLng>::class.java, LatLngListDeserializer())
+        builder.registerTypeAdapter(LatLng::class.java, LatLngDeserializer())
+        val gson = builder.create()
+
         val client = getOkHttpClient().build()
         return Retrofit.Builder()
 //            .client(getOkHttpClient().build())
@@ -33,7 +45,7 @@ object RetrofitClient {
             .baseUrl(baseUrl)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

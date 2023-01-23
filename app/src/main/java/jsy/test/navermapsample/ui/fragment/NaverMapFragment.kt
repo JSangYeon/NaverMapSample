@@ -1,28 +1,19 @@
 package jsy.test.navermapsample.ui.fragment
 
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainer
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
-import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.base.BaseFragment
 import jsy.test.navermapsample.databinding.FragmentNaverMapBinding
-import jsy.test.navermapsample.viewmodels.MainViewModel
 import jsy.test.navermapsample.viewmodels.NaverMapViewModel
 
 /**
@@ -41,7 +32,7 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
         binding.naverMapFragment = this@NaverMapFragment
         binding.naverMapViewModel = _naverMapViewModel
 
-        _naverMapViewModel.testRetrofit()
+        _naverMapViewModel.getEVCS()
 
         naverMap = (binding.fcNaverMap.getFragment() as MapFragment)
 
@@ -73,11 +64,34 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
 
             markerList.forEach { marker->
                 Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
+
+                marker.setOnClickListener {
+                    _naverMapViewModel.getRoute(marker.position)
+                    true
+                }
                 marker.map = naverMap
+
             }
 
         }
 
+        _naverMapViewModel.routePath.observe(viewLifecycleOwner){ path ->
+
+            path.map = naverMap
+
+//
+//            routePath.forEach { marker->
+//                Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
+//
+//                marker.setOnClickListener {
+//                    _naverMapViewModel.getRoute(marker.position)
+//                    true
+//                }
+//                marker.map = naverMap
+//
+//            }
+
+        }
 
     }
 

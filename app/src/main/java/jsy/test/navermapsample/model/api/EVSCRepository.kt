@@ -1,12 +1,12 @@
 package jsy.test.navermapsample.model.api
 
 import io.reactivex.Flowable
-import jsy.test.navermapsample.model.data.EVCSResponse
+import jsy.test.navermapsample.model.data.evcs.EVCSResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface TestRepository {
+interface EVSCRepository {
 
     @GET("/B552584/EvCharger/getChargerInfo")
     fun getVehicleLocation(

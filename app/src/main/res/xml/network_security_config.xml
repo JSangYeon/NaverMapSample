@@ -7,7 +7,7 @@
         </trust-anchors>
     </base-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">apis.data.go.kr/</domain>
-        <domain includeSubdomains="true">jsonplaceholder.typicode.com</domain>
+        <domain includeSubdomains="true">apis.data.go.kr</domain>
+        <domain includeSubdomains="true">naveropenapi.apigw.ntruss.com</domain>
     </domain-config>
 </network-security-config>
