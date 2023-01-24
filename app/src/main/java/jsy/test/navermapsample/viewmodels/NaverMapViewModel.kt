@@ -11,15 +11,15 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jsy.test.navermapsample.R
-import jsy.test.navermapsample.model.repository.EVCSRepositoryImpl
-import jsy.test.navermapsample.model.repository.NaverDirectRepositoryImpl
+import jsy.test.navermapsample.model.repository.EVCSRepository
+import jsy.test.navermapsample.model.repository.NaverDirectRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
 class NaverMapViewModel @Inject constructor(
-    private val evcsRepositoryImpl: EVCSRepositoryImpl,
-    private val naverDirectRepositoryImpl: NaverDirectRepositoryImpl
+    private val evcsRepository: EVCSRepository,
+    private val naverDirectRepository: NaverDirectRepository
 ) : BaseViewModel() {
 
     private val _markerList = SingleLiveEvent<ArrayList<Marker>>()
@@ -40,7 +40,7 @@ class NaverMapViewModel @Inject constructor(
     fun getEVCS() {
 
         Log.d(logTag, "testRetrofit")
-        evcsRepositoryImpl.getVehicleLocation().subscribe({ response ->
+        evcsRepository.getVehicleLocation().subscribe({ response ->
 
             val evcsResponse = response.body()
             Log.d(logTag, "retrofit 충전소 :  ${evcsResponse}}")
@@ -73,7 +73,7 @@ class NaverMapViewModel @Inject constructor(
         if (_currentLocation.value != null) {
             _isProgress.value = true
             if (_routePath.value != null) _routePath.value!!.map = null
-            naverDirectRepositoryImpl.getNaverDirect(_currentLocation.value!!, markerPosition)
+            naverDirectRepository.getNaverDirect(_currentLocation.value!!, markerPosition)
                 .subscribe({ response ->
 //                    Log.d(logTag, "response body : ${response.body()}")
                     val naverMapDirectResponse = response.body()

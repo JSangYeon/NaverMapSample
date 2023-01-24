@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface NaverDirectRepository {
+interface NaverDirectApi {
 
     @GET("/map-direction/v1/driving")
     fun getMapDirection(
