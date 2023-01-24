@@ -4,8 +4,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
-import jsy.test.navermapsample.model.api.EVSCRepository
-import jsy.test.navermapsample.model.api.NaverDirectRepository
+import jsy.test.navermapsample.model.api.EVSCApi
+import jsy.test.navermapsample.model.api.NaverDirectApi
 import jsy.test.navermapsample.util.network.ApiConfig
 import jsy.test.navermapsample.util.network.RetrofitClient
 import javax.inject.Singleton
@@ -16,15 +16,15 @@ import javax.inject.Singleton
 object RetrofitModule {
     @Singleton
     @Provides
-    fun getEVSCRepository(): EVSCRepository {
+    fun getEVSCRepository(): EVSCApi {
         val retrofit = RetrofitClient.retrofit(ApiConfig.PUBLIC_DATA_API_URL)
-        return retrofit.create(EVSCRepository::class.java)
+        return retrofit.create(EVSCApi::class.java)
     }
 
     @Singleton
     @Provides
-    fun getNaverDirectRepository(): NaverDirectRepository {
+    fun getNaverDirectRepository(): NaverDirectApi {
         val retrofit = RetrofitClient.retrofit(ApiConfig.NAVER_DIRECT5_URL)
-        return retrofit.create(NaverDirectRepository::class.java)
+        return retrofit.create(NaverDirectApi::class.java)
     }
 }

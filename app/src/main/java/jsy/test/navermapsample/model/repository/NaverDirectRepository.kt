@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class NaverDirectRepositoryImpl @Inject constructor() {
+class NaverDirectRepository @Inject constructor() {
     private val logTag = javaClass.simpleName
 
     fun getNaverDirect(startLatLng: LatLng, goalLatLng: LatLng): Flowable<Response<NaverDirectResponse>> {
