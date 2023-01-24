@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/NaverMapFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/NaverMapFragment"
         android:name="jsy.test.navermapsample.ui.fragment.NaverMapFragment"
         android:label="@string/naver_map_fragment"
         tools:layout="@layout/fragment_naver_map">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_naver_map_to_saved_path"
+            app:destination="@id/SavedPathFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="jsy.test.navermapsample.ui.fragment.SecondFragment"
-        android:label="@string/second_fragment"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/SavedPathFragment"
+        android:name="jsy.test.navermapsample.ui.fragment.SavedPathFragment"
+        android:label="@string/saved_path_fragment"
+        tools:layout="@layout/fragment_saved_path">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_saved_path_to_naver_map"
+            app:destination="@id/NaverMapFragment" />
     </fragment>
 </navigation>

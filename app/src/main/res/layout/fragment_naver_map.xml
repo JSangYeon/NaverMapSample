@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/move_second_fragment"
+            android:text="@string/move_saved_path_fragment"
             android:onClick="@{naverMapViewModel::navigateSecondFragment}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

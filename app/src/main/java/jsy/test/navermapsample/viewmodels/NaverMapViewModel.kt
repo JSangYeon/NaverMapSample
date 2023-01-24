@@ -39,7 +39,7 @@ class NaverMapViewModel @Inject constructor(
 
 
     fun navigateSecondFragment(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_FirstFragment_to_SecondFragment)
+        Navigation.findNavController(view).navigate(R.id.action_naver_map_to_saved_path)
     }
 
     fun getEVCS() {
@@ -98,7 +98,7 @@ class NaverMapViewModel @Inject constructor(
                         val json =  Gson().toJson(latlngList)
 
                         Log.d(logTag,"test Json : $json")
-                        localRepository.addPlaceHistory(
+                        localRepository.addPathHistory(
                             RouteHistory(
                                 departurePlaceName = "목동",
                                 destinationName = poistionName,
@@ -123,7 +123,7 @@ class NaverMapViewModel @Inject constructor(
 
     fun getAllPlace() {
         var a = ""
-        val temp = localRepository.getPlaceHistory().subscribe(
+        val temp = localRepository.getPathListHistory().subscribe(
             { placeList ->
                 Log.d(logTag, "getPlaceSize : ${placeList.size}")
                 placeList.forEach { place->
@@ -137,8 +137,5 @@ class NaverMapViewModel @Inject constructor(
                 Log.d(logTag, "getAllPlace error : $it")
             }
         );
-
-
-
     }
 }

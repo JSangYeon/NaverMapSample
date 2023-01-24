@@ -13,10 +13,10 @@ class LocalRepository @Inject constructor(
     private val routeHistoryDao: RouteHistoryDao
 ) {
 
-    fun getPlaceHistory(): Flowable<Array<RouteHistory>> =
+    fun getPathListHistory(): Flowable<Array<RouteHistory>> =
         routeHistoryDao.readAllPathHistory().subscribeOn(Schedulers.io())
 
-    fun addPlaceHistory(vararg history: RouteHistory): Completable =
+    fun addPathHistory(vararg history: RouteHistory): Completable =
         routeHistoryDao.addPathHistory(*history).subscribeOn(Schedulers.io())
 //    fun addPlaceHistory(place: PlaceSearchResult.Place) =
 //        historyDataSource.addPlaceHistory(place.createPlaceHistory())

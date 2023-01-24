@@ -47,7 +47,7 @@ abstract class BaseViewModel : ViewModel() {
                     _closeEvent.call()
                 } else {
                     Toast.makeText(getGlobalApplicationContext(), getGlobalApplicationContext().getText(
-                            R.string.app_close_hint
+                            R.string.hint_app_close
                         ), Toast.LENGTH_SHORT
                     ).show()
                 }
