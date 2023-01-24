@@ -6,20 +6,25 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation
 import com.example.naviMapTest.base.BaseViewModel
 import com.example.naviMapTest.base.SingleLiveEvent
+import com.google.gson.Gson
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jsy.test.navermapsample.R
+import jsy.test.navermapsample.model.database.entity.RouteHistory
 import jsy.test.navermapsample.model.repository.EVCSRepository
+import jsy.test.navermapsample.model.repository.LocalRepository
 import jsy.test.navermapsample.model.repository.NaverDirectRepository
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 @HiltViewModel
 class NaverMapViewModel @Inject constructor(
     private val evcsRepository: EVCSRepository,
-    private val naverDirectRepository: NaverDirectRepository
+    private val naverDirectRepository: NaverDirectRepository,
+    private val localRepository: LocalRepository
 ) : BaseViewModel() {
 
     private val _markerList = SingleLiveEvent<ArrayList<Marker>>()
@@ -68,7 +73,7 @@ class NaverMapViewModel @Inject constructor(
         }).let { }
     }
 
-    fun getRoute(markerPosition: LatLng) {
+    fun getRoute(poistionName : String, markerPosition: LatLng) {
         disposables.clear()
         if (_currentLocation.value != null) {
             _isProgress.value = true
@@ -84,9 +89,23 @@ class NaverMapViewModel @Inject constructor(
                         naverMapDirectResponse.route.trafast.isNotEmpty() &&
                         naverMapDirectResponse.route.trafast[0].path != null
                     ) {
+                        val latlngList = naverMapDirectResponse.route.trafast[0].path.toCollection(ArrayList())
                         val path = PathOverlay()
-                        path.coords = naverMapDirectResponse.route.trafast[0].path.toCollection(ArrayList())
+                        path.coords = latlngList
                         _routePath.postValue(path)
+
+
+                        val json =  Gson().toJson(latlngList)
+
+                        Log.d(logTag,"test Json : $json")
+                        localRepository.addPlaceHistory(
+                            RouteHistory(
+                                departurePlaceName = "목동",
+                                destinationName = poistionName,
+                                departurePlaceLatLng = _currentLocation.value!!,
+                                destinationLatLng = markerPosition,
+                                path = latlngList)
+                        ).subscribe()
                     }
                     _isProgress.postValue(false)
                 }, {
@@ -100,5 +119,26 @@ class NaverMapViewModel @Inject constructor(
 
     fun setLocationMokdong() {
         _currentLocation.value = LatLng(37.5261, 126.8643)
+    }
+
+    fun getAllPlace() {
+        var a = ""
+        val temp = localRepository.getPlaceHistory().subscribe(
+            { placeList ->
+                Log.d(logTag, "getPlaceSize : ${placeList.size}")
+                placeList.forEach { place->
+
+                    Log.d(logTag, "getPlace : ${place}")
+
+                    a = place.destinationName
+                }
+            },{
+
+                Log.d(logTag, "getAllPlace error : $it")
+            }
+        );
+
+
+
     }
 }

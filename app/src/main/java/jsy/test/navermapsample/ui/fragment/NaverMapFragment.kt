@@ -64,10 +64,10 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
         _naverMapViewModel.markerList.observe(viewLifecycleOwner){ markerList ->
 
             markerList.forEach { marker->
-                Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
+//                Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
 
                 marker.setOnClickListener {
-                    _naverMapViewModel.getRoute(marker.position)
+                    _naverMapViewModel.getRoute(marker.captionText, marker.position)
                     true
                 }
                 marker.map = naverMap
