@@ -1,30 +1,21 @@
 package jsy.test.navermapsample.ui.fragment
 
-import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
-import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.base.BaseFragment
 import jsy.test.navermapsample.databinding.FragmentNaverMapBinding
-import jsy.test.navermapsample.viewmodels.MainViewModel
 import jsy.test.navermapsample.viewmodels.NaverMapViewModel
-import kotlin.math.log
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -33,7 +24,7 @@ import kotlin.math.log
 @AndroidEntryPoint
 class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment_naver_map) {
 
-    private val _naverMapViewModel: NaverMapViewModel by viewModels()
+    private val _naverMapViewModel: NaverMapViewModel by activityViewModels()
 
     private lateinit var naverMap : MapFragment
 
@@ -41,6 +32,8 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
         Log.d(logTag, "init naverMapFragment")
         binding.naverMapFragment = this@NaverMapFragment
         binding.naverMapViewModel = _naverMapViewModel
+
+        _naverMapViewModel.getEVCS()
 
         naverMap = (binding.fcNaverMap.getFragment() as MapFragment)
 
@@ -54,6 +47,7 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
     private fun initNaverMapSetting(naverMap: NaverMap){
 
 
+
         _naverMapViewModel.currentLocation.observe(viewLifecycleOwner){ latLng->
 
             val cameraUpdate = CameraUpdate.scrollTo(latLng)
@@ -65,11 +59,43 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
                 .cancelCallback {
                     Toast.makeText(context, "취소", Toast.LENGTH_SHORT).show()
                 }
-
-
             naverMap.moveCamera(cameraUpdate)
         }
 
+        _naverMapViewModel.markerList.observe(viewLifecycleOwner){ markerList ->
+
+            markerList.forEach { marker->
+//                Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
+
+                marker.setOnClickListener {
+                    _naverMapViewModel.getRoute(marker.captionText, marker.position)
+                    true
+                }
+                marker.map = naverMap
+
+            }
+
+        }
+
+        Log.d(logTag,"naverMapViewModel Routepath value : ${_naverMapViewModel.routePath.value}")
+        _naverMapViewModel.routePath.observe(viewLifecycleOwner){ path ->
+            Log.d(logTag,"naverMapViewModel observe Routepath value : ${_naverMapViewModel.routePath.value}")
+
+            path.map = naverMap
+
+//
+//            routePath.forEach { marker->
+//                Log.d(logTag , "marker set : ${marker.tag}\nposition : ${marker.position}")
+//
+//                marker.setOnClickListener {
+//                    _naverMapViewModel.getRoute(marker.position)
+//                    true
+//                }
+//                marker.map = naverMap
+//
+//            }
+
+        }
 
     }
 
