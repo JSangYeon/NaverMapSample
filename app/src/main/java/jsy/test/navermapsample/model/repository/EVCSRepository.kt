@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class EVCSRepositoryImpl @Inject constructor() {
+class EVCSRepository @Inject constructor() {
     private val logTag = javaClass.simpleName
 
 //    fun getDefault(): Flowable<Response<ArrayList<User>>> {
