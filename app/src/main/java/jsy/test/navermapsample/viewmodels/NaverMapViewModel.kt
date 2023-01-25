@@ -73,6 +73,13 @@ class NaverMapViewModel @Inject constructor(
         }).let { }
     }
 
+    fun setRouteByRouteHistory(routeHistory: RouteHistory){
+        val latlngList =   routeHistory.path
+        val path = PathOverlay()
+        path.coords = latlngList
+        _routePath.value = path
+    }
+
     fun getRoute(poistionName : String, markerPosition: LatLng) {
         disposables.clear()
         if (_currentLocation.value != null) {

@@ -3,6 +3,7 @@ package jsy.test.navermapsample.ui.fragment
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -23,7 +24,7 @@ import jsy.test.navermapsample.viewmodels.NaverMapViewModel
 @AndroidEntryPoint
 class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment_naver_map) {
 
-    private val _naverMapViewModel: NaverMapViewModel by viewModels()
+    private val _naverMapViewModel: NaverMapViewModel by activityViewModels()
 
     private lateinit var naverMap : MapFragment
 
@@ -76,7 +77,9 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
 
         }
 
+        Log.d(logTag,"naverMapViewModel Routepath value : ${_naverMapViewModel.routePath.value}")
         _naverMapViewModel.routePath.observe(viewLifecycleOwner){ path ->
+            Log.d(logTag,"naverMapViewModel observe Routepath value : ${_naverMapViewModel.routePath.value}")
 
             path.map = naverMap
 

@@ -1,6 +1,7 @@
 package jsy.test.navermapsample.base
 
 import android.R.attr.data
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,19 +9,22 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.internal.notifyAll
 
 
 abstract class BaseRecyclerView {
+
 
     abstract class Adapter<ITEM : Any, B : ViewDataBinding>(
         @LayoutRes private val layoutResId: Int,
         private val bindingVariableId: Int? = null
     ) : RecyclerView.Adapter<ViewHolder<B>>() {
 
-        private val logTag = javaClass.simpleName
+        protected val logTag = javaClass.simpleName
         private val items = mutableListOf<ITEM>()
 
 
+        @SuppressLint("NotifyDataSetChanged")
         fun replaceAll(items: List<ITEM>?) {
             Log.d(logTag, "items : ${items?.size}")
             items?.let {
@@ -28,6 +32,7 @@ abstract class BaseRecyclerView {
                     clear()
                     addAll(it)
                 }
+                notifyDataSetChanged()
             }
         }
 
@@ -56,7 +61,7 @@ abstract class BaseRecyclerView {
 
         val binding: B = DataBindingUtil.bind(itemView)!!
 
-        fun onBindViewHolder(item: Any?) {
+        open fun onBindViewHolder(item: Any?) {
             try {
                 bindingVariableId?.let {
                     binding.setVariable(it, item)
