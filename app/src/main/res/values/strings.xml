@@ -4,9 +4,15 @@
     <string name="naver_map_fragment">naverMapFragment</string>
     <string name="saved_path_fragment">savedPathFragment</string>
 
+<!--    PathNotification-->
+    <string name="mokdong">목동</string>
+    <string name="path_notification_channel">pathNotificationChannel</string>
+    <string name="complete_saved_path">경로 저장 완료</string>
+    <string name="path_notification_channel_Name">pathNotificationChannelName</string>
+    <string name="path_notification_channel_description">pathNotificationChannelDescription</string>
 
     <string name="move_camera_mokdong">목동으로 화면이동</string>
-    <string name="get_all_place">저장된 모든 장소 확인</string>
+    <string name="test_notification">테스트 알림</string>
     
     <string name="move_saved_path_fragment">저장된 경로 Fragment로 이동</string>
     <string name="move_naver_map_fragment">NaverMapFragment로 이동</string>

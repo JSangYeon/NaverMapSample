@@ -37,8 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="30dp"
-            android:text="@string/get_all_place"
-            android:onClick="@{()->naverMapViewModel.getAllPlace()}"
+            android:text="@string/test_notification"
+            android:onClick="@{()->naverMapViewModel.testNotification()}"
             app:layout_constraintBottom_toTopOf="@id/btn_move_camera_mokdong"
             app:layout_constraintEnd_toEndOf="parent" />
 

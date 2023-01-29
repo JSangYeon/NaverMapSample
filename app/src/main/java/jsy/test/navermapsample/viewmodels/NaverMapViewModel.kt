@@ -11,11 +11,13 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jsy.test.navermapsample.NaverMapSampleApplication.Companion.getGlobalApplicationContext
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.model.database.entity.RouteHistory
 import jsy.test.navermapsample.model.repository.EVCSRepository
 import jsy.test.navermapsample.model.repository.LocalRepository
 import jsy.test.navermapsample.model.repository.NaverDirectRepository
+import jsy.test.navermapsample.util.notification.PathNotificationManager
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -24,7 +26,8 @@ import kotlin.collections.ArrayList
 class NaverMapViewModel @Inject constructor(
     private val evcsRepository: EVCSRepository,
     private val naverDirectRepository: NaverDirectRepository,
-    private val localRepository: LocalRepository
+    private val localRepository: LocalRepository,
+    private val pathNotificationManager: PathNotificationManager,
 ) : BaseViewModel() {
 
     private val _markerList = SingleLiveEvent<ArrayList<Marker>>()
@@ -80,7 +83,7 @@ class NaverMapViewModel @Inject constructor(
         _routePath.value = path
     }
 
-    fun getRoute(poistionName : String, markerPosition: LatLng) {
+    fun getRoute(positionName : String, markerPosition: LatLng) {
         disposables.clear()
         if (_currentLocation.value != null) {
             _isProgress.value = true
@@ -104,15 +107,23 @@ class NaverMapViewModel @Inject constructor(
 
                         val json =  Gson().toJson(latlngList)
 
+                        val departurePlaceName = getGlobalApplicationContext().getString(R.string.mokdong)
                         Log.d(logTag,"test Json : $json")
                         localRepository.addPathHistory(
                             RouteHistory(
-                                departurePlaceName = "목동",
-                                destinationName = poistionName,
+                                departurePlaceName = departurePlaceName,
+                                destinationName = positionName,
                                 departurePlaceLatLng = _currentLocation.value!!,
                                 destinationLatLng = markerPosition,
                                 path = latlngList)
-                        ).subscribe()
+                        ).subscribe(
+                            {
+                                pathNotificationManager.pathSavedNotify(departurePlaceName, positionName)
+                            },
+                            {
+
+                            }
+                        ).let {  }
                     }
                     _isProgress.postValue(false)
                 }, {
@@ -128,21 +139,7 @@ class NaverMapViewModel @Inject constructor(
         _currentLocation.value = LatLng(37.5261, 126.8643)
     }
 
-    fun getAllPlace() {
-        var a = ""
-        val temp = localRepository.getPathListHistory().subscribe(
-            { placeList ->
-                Log.d(logTag, "getPlaceSize : ${placeList.size}")
-                placeList.forEach { place->
-
-                    Log.d(logTag, "getPlace : ${place}")
-
-                    a = place.destinationName
-                }
-            },{
-
-                Log.d(logTag, "getAllPlace error : $it")
-            }
-        );
+    fun testNotification() {
+        pathNotificationManager.testNotification()
     }
 }
