@@ -1,7 +1,10 @@
 package jsy.test.navermapsample.ui.fragment
 
+import android.app.NotificationManager
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -12,9 +15,12 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
+import jsy.test.navermapsample.NaverMapSampleApplication
+import jsy.test.navermapsample.NaverMapSampleApplication.Companion.getGlobalApplicationContext
 import jsy.test.navermapsample.R
 import jsy.test.navermapsample.base.BaseFragment
 import jsy.test.navermapsample.databinding.FragmentNaverMapBinding
+import jsy.test.navermapsample.util.noti.SampleNotificationUtils
 import jsy.test.navermapsample.viewmodels.NaverMapViewModel
 
 /**
@@ -44,8 +50,8 @@ class NaverMapFragment : BaseFragment<FragmentNaverMapBinding>(R.layout.fragment
 
     }
 
-    private fun initNaverMapSetting(naverMap: NaverMap){
 
+    private fun initNaverMapSetting(naverMap: NaverMap){
 
 
         _naverMapViewModel.currentLocation.observe(viewLifecycleOwner){ latLng->

@@ -16,6 +16,7 @@ import jsy.test.navermapsample.model.database.entity.RouteHistory
 import jsy.test.navermapsample.model.repository.EVCSRepository
 import jsy.test.navermapsample.model.repository.LocalRepository
 import jsy.test.navermapsample.model.repository.NaverDirectRepository
+import jsy.test.navermapsample.util.noti.SampleNotificationUtils
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -129,20 +130,25 @@ class NaverMapViewModel @Inject constructor(
     }
 
     fun getAllPlace() {
-        var a = ""
-        val temp = localRepository.getPathListHistory().subscribe(
-            { placeList ->
-                Log.d(logTag, "getPlaceSize : ${placeList.size}")
-                placeList.forEach { place->
 
-                    Log.d(logTag, "getPlace : ${place}")
-
-                    a = place.destinationName
-                }
-            },{
-
-                Log.d(logTag, "getAllPlace error : $it")
-            }
-        );
+//        private fun initNoti(){
+            val sampleNotificationUtils = SampleNotificationUtils()
+            sampleNotificationUtils.useNoti()
+//        }
+//        var a = ""
+//        val temp = localRepository.getPathListHistory().subscribe(
+//            { placeList ->
+//                Log.d(logTag, "getPlaceSize : ${placeList.size}")
+//                placeList.forEach { place->
+//
+//                    Log.d(logTag, "getPlace : ${place}")
+//
+//                    a = place.destinationName
+//                }
+//            },{
+//
+//                Log.d(logTag, "getAllPlace error : $it")
+//            }
+//        );
     }
 }
